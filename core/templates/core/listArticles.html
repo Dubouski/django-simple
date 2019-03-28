@@ -1,0 +1,70 @@
+{% extends "core/wrapper.html" %}
+
+{% block content %}
+    <p class="text-center font-weight-bold">Articles</p>
+    <span id="sorted-articles"></span>
+    <script>
+
+        const element = document.getElementById('sorted-articles');
+
+        function createNode(element) {
+            return document.createElement(element);
+        }
+
+        function append(parent, el) {
+            return parent.appendChild(el);
+        }
+
+        getData();
+
+        function renderTableData(data, element) {
+            var i;
+            element.innerHTML = '';
+            for (i = 0; i < data.length; i++) {
+                //console.log(data[i].title + ", " + data[i].body + ", " + data[i].id + ", " + data[i].date);
+                let aArticle = createNode('a'),
+                    divArticle = createNode('div'),
+                    bodyArticle = createNode('p'),
+                    titleArticle = createNode('h5'),
+                    dateArticle = createNode('small');
+                bodyArticle.innerHTML = data[i].body;
+                titleArticle.innerHTML = data[i].title;
+                dateArticle.innerHTML = data[i].date;
+                aArticle.className += 'list-group-item list-group-item-action flex-column align-items-start';
+                divArticle.className += 'd-flex w-120 justify-content-between';
+                titleArticle.className += 'mb-1';
+                bodyArticle.className += 'mb-1';
+                dateArticle.className += 'text-muted';
+                divArticle.appendChild(titleArticle);
+                divArticle.appendChild(dateArticle);
+                aArticle.appendChild(divArticle);
+                aArticle.appendChild(bodyArticle);
+                append(element, aArticle);
+            }
+        }
+
+        function getData() {
+            var xhr = new XMLHttpRequest();
+            var urlGetArticles = "/articles";
+            xhr.open("GET", urlGetArticles, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    renderTableData(data, element);
+                }
+            };
+            xhr.send();
+        }
+
+        var timer;
+        var timerInterval = 15000;  //run every 15 secund
+        timer = setInterval(run, timerInterval);
+
+        function run() {
+            getData();
+        }
+
+    </script>
+
+{% endblock %}

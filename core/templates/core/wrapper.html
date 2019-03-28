@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Application</title>
+    <style>
+        .footer {
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: silver;
+            color: white;
+            text-align: center;
+        }
+    </style>
+
+    <script src="https://fb.me/react-dom-0.14.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}"/>
+</head>
+
+
+<body style="background: silver">
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Application</a>
+        </div>
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <div class="container">
+        {% include "core/form.html" %}
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        &copy; All right not reserved 2018 )
+    </div>
+</div>
+
+</body>
+
+</html>

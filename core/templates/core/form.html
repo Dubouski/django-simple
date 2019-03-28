@@ -1,0 +1,78 @@
+{% block content %}
+    <p class="text-center font-weight-bold">Add post</p>
+    <div class="card border-primary mb-3">
+        <div class="card-body text-primary">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="title">Title</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" id="artTitle" placeholder="Enter title article" value=""
+                           name="title">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="text">Text</label>
+                <div class="col-sm-12">
+                    <textarea class="form-control" id="aBodyArea" aria-label="With textarea"
+                              style="min-height: 2.5rem; height: 2rem;"
+                              placeholder="Enter text article" spellcheck="false"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-primary" id="btnSend" onclick="send()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function send() {
+            var aTitle = String(document.getElementById("artTitle").value);
+            var aBody = String(document.getElementById("aBodyArea").value);
+
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            var csrftoken = getCookie('csrftoken');
+            //console.log(csrftoken);
+
+            var headers = new Headers();
+
+            headers.append("Content-Type", "application/json");
+            headers.append("Accept", "application/json");
+            headers.append("X-CSRFToken", csrftoken);
+
+            var option = {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                    "title": aTitle,
+                    "body": aBody
+                })
+            }
+
+            fetch('/articles', option)
+                .then(response => {
+                    //console.log(response);
+                    return response.json()
+                })
+                .then(function (data) {
+                    console.log(data);
+                })
+        }
+
+    </script>
+{% endblock %}

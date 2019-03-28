@@ -1,0 +1,4 @@
+.idea/
+core/__pycache__/
+core/migrations/__pycache__/
+mysite/__pycache__/
